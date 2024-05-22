@@ -1,0 +1,924 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Laravel Crud API",
+        "description": "A simple API for managing resources",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Display a listing of the resource.",
+                "description": "",
+                "operationId": "CustomerIndex",
+                "parameters": [
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "description": "Accept-Language header.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ok"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerDTO"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaginationDTO"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "not_acceptable"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Acceptable"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "unprocessable_entity"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unprocessable Entity"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "page": [
+                                                    "The page field must be integer."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "internal_server_error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Store a newly created resource in storage.",
+                "description": "",
+                "operationId": "CustomerStore",
+                "parameters": [
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "description": "Accept-Language header.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "first_name",
+                                        "type": "string",
+                                        "example": "Omid"
+                                    },
+                                    "last_name": {
+                                        "description": "last_name",
+                                        "type": "string",
+                                        "example": "Kiani"
+                                    },
+                                    "date_of_birth": {
+                                        "description": "date_of_birth",
+                                        "type": "string",
+                                        "example": "1372/04/02"
+                                    },
+                                    "phone_number": {
+                                        "description": "phone_number",
+                                        "type": "string",
+                                        "example": "09331116877"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "type": "string",
+                                        "example": "kianiomid11@gmail.com"
+                                    },
+                                    "bank_account_number": {
+                                        "description": "bank_account_number",
+                                        "type": "string",
+                                        "example": "240470000000007417144412"
+                                    },
+                                    "created_at": {
+                                        "description": "Customer creation time",
+                                        "type": "string",
+                                        "example": "2024-03-27 07:10:57"
+                                    },
+                                    "updated_at": {
+                                        "description": "Customer update time",
+                                        "type": "string",
+                                        "example": "2024-03-27 07:10:57"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ok"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerDTO"
+                                        },
+                                        "pagination": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "not_acceptable"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Acceptable"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "unprocessable_entity"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unprocessable Entity"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name has already been taken."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "internal_server_error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/customers/{customerId}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Display the specified resource.",
+                "description": "",
+                "operationId": "CustomerShow",
+                "parameters": [
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "description": "Accept-Language header.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ok"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerDTO"
+                                        },
+                                        "pagination": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "not_found"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "not_acceptable"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Acceptable"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "internal_server_error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update the specified resource in storage.",
+                "description": "",
+                "operationId": "CustomerUpdate",
+                "parameters": [
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "description": "Accept-Language header.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "first_name",
+                                        "type": "string",
+                                        "example": "Omid"
+                                    },
+                                    "last_name": {
+                                        "description": "last_name",
+                                        "type": "string",
+                                        "example": "Kiani"
+                                    },
+                                    "date_of_birth": {
+                                        "description": "date_of_birth",
+                                        "type": "string",
+                                        "example": "1372/04/02"
+                                    },
+                                    "phone_number": {
+                                        "description": "phone_number",
+                                        "type": "string",
+                                        "example": "09331116877"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "type": "string",
+                                        "example": "kianiomid11@gmail.com"
+                                    },
+                                    "bank_account_number": {
+                                        "description": "bank_account_number",
+                                        "type": "string",
+                                        "example": "240470000000007417144412"
+                                    },
+                                    "created_at": {
+                                        "description": "Customer creation time",
+                                        "type": "string",
+                                        "example": "2024-03-27 07:10:57"
+                                    },
+                                    "updated_at": {
+                                        "description": "Customer update time",
+                                        "type": "string",
+                                        "example": "2024-03-27 07:10:57"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ok"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerDTO"
+                                        },
+                                        "pagination": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "not_found"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "not_acceptable"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Acceptable"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "unprocessable_entity"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unprocessable Entity"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name has already been taken."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "internal_server_error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Remove the specified resource from storage.",
+                "description": "",
+                "operationId": "an",
+                "parameters": [
+                    {
+                        "name": "accept-language",
+                        "in": "header",
+                        "description": "Accept-Language header.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ok"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": []
+                                        },
+                                        "pagination": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "not_found"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Found"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "string",
+                                            "example": "not_acceptable"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not Acceptable"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "internal_server_error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": []
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PaginationDTO": {
+                "title": "PaginationDTO",
+                "description": "Pagination DTO",
+                "properties": {
+                    "first": {
+                        "description": "First page URL",
+                        "type": "string",
+                        "example": "http://exchange.local/api/v1/customers?per_page=20&page=1"
+                    },
+                    "last": {
+                        "description": "Last page URL",
+                        "type": "string",
+                        "example": "http://exchange.local/api/v1/customers?per_page=20&page=3"
+                    },
+                    "prev": {
+                        "description": "Previous page URL",
+                        "type": "string",
+                        "example": "http://exchange.local/api/v1/customers?per_page=20&page=1"
+                    },
+                    "next": {
+                        "description": "Next page URL",
+                        "type": "string",
+                        "example": "http://exchange.local/api/v1/customers?per_page=20&page=2"
+                    },
+                    "total": {
+                        "description": "Total number of items",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "per_page": {
+                        "description": "Total number of items in each page",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "current_page": {
+                        "description": "Current page",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "total_pages": {
+                        "description": "Total pages",
+                        "type": "integer",
+                        "example": 10
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PaginationDTO"
+                }
+            },
+            "CustomerDTO": {
+                "title": "CustomerDTO",
+                "description": "CustomerDTO",
+                "properties": {
+                    "id": {
+                        "description": "Customer Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "first_name",
+                        "type": "string",
+                        "example": "Omid"
+                    },
+                    "last_name": {
+                        "description": "last_name",
+                        "type": "string",
+                        "example": "Kiani"
+                    },
+                    "date_of_birth": {
+                        "description": "date_of_birth",
+                        "type": "string",
+                        "example": "1372/04/02"
+                    },
+                    "phone_number": {
+                        "description": "phone_number",
+                        "type": "string",
+                        "example": "09331116877"
+                    },
+                    "email": {
+                        "description": "email",
+                        "type": "string",
+                        "example": "kianiomid11@gmail.com"
+                    },
+                    "bank_account_number": {
+                        "description": "bank_account_number",
+                        "type": "string",
+                        "example": "240470000000007417144412"
+                    },
+                    "created_at": {
+                        "description": "Customer creation time",
+                        "type": "string",
+                        "example": "2024-03-27 07:10:57"
+                    },
+                    "updated_at": {
+                        "description": "Customer update time",
+                        "type": "string",
+                        "example": "2024-03-27 07:10:57"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CustomerDTO"
+                }
+            }
+        }
+    }
+}
