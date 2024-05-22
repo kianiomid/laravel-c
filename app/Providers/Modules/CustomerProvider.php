@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Customer;
+namespace App\Providers\Modules;
 
 use App\Repositories\Customer\Impls\CustomerRepository;
 use App\Repositories\Customer\Interfaces\ICustomerRepository;
