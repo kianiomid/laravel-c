@@ -25,12 +25,12 @@ class CustomerSaveRequest extends FormRequest
     #[ArrayShape(['first_name' => "string[]", 'last_name' => "string[]", 'date_of_birth' => "string[]", 'phone_number' => "string[]", 'email' => "string[]", 'bank_account_number' => "string[]"])] public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'date_of_birth' => ['required', 'boolean'],
-            'phone_number' => ['required', 'string'],
-            'email' => ['required', 'string'],
-            'bank_account_number' => ['required', 'string'],
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'date_of_birth' => 'required|string',
+            'phone_number' => 'required|numeric|unique:customers|regex:/^([+]?[0-9]{1,3})?([-\.\s])?([0-9]{3})([-\.\s])?([0-9]{4,})$/',
+            'email' => 'required|email|unique:customers',
+            'bank_account_number' => 'required|digits:24', //TODO: use popular package or use regex
         ];
     }
 }
